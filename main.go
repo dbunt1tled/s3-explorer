@@ -22,7 +22,7 @@ import (
 func main() {
 	var (
 		selectFile string
-		bucketId   widget.ListItemID
+		bucketID   widget.ListItemID
 		bucketName string
 		files      []string
 	)
@@ -69,7 +69,7 @@ func main() {
 	bucketList.OnSelected = func(id widget.ListItemID) {
 		progressBar.Hide()
 		bucketName = buckets[id]
-		bucketId = id
+		bucketID = id
 		files = getBucketContents(s3Client, bucketName)
 		fileList.Length = func() int { return len(files) }
 		fileList.UpdateItem = func(id widget.ListItemID, item fyne.CanvasObject) {
@@ -91,7 +91,7 @@ func main() {
 
 			uploadFile(s3Client, bucketName, filePath, progressBar, myWindow)
 		}, myWindow)
-		bucketList.OnSelected(bucketId)
+		bucketList.OnSelected(bucketID)
 	})
 	downloadButton := widget.NewButton("Download", func() {
 		if fileList.Length() == 0 || selectFile == "" || selectFile[len(selectFile)-1:] == "/" {
@@ -132,7 +132,7 @@ func main() {
 				} else {
 					log.Printf("File %s deleted successfully", fileKey)
 				}
-				bucketList.OnSelected(bucketId)
+				bucketList.OnSelected(bucketID)
 			}
 		}, myWindow)
 		d.Show()
